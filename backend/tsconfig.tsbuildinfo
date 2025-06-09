@@ -1,1 +1,1 @@
-{"root":["./src/app.ts","./src/index.ts","./src/models/task.ts"],"version":"5.8.3"}
+{"root":["./src/app.ts","./src/index.ts","./src/controllers/task.controllers.ts","./src/middleware/logger.ts","./src/models/task.ts","./src/routes/task.routes.ts"],"version":"5.8.3"}
