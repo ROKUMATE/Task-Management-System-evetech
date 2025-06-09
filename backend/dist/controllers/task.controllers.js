@@ -26,6 +26,14 @@ const Task_1 = require("../models/Task");
         "details": "Additional error details"
     }
  */
+/**
+ * Sample Request Query Parameters for getAll:
+    {
+        "status": "pending",
+        "priority": "high",
+        "search": "homework"
+    }
+ */
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { status, priority, search } = req.query;
     const filter = {};
@@ -39,8 +47,31 @@ const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ success: true, data: tasks, message: "Fetched tasks" });
 });
 exports.getAll = getAll;
+/**
+ * Sample Request Body for create:
+    {
+        "title": "Complete Assignment",
+        "description": "Finish the math assignment",
+        "status": "pending",
+        "priority": "high",
+        "dueDate": "2023-06-10T00:00:00.000Z"
+    }
+ */
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const task = yield Task_1.Task.create(req.body);
+    const { title, description, status, priority, dueDate } = req.body;
+    if (!title || !status || !priority) {
+        return res.status(400).json({
+            success: false,
+            message: "Missing required fields: title, status, priority",
+        });
+    }
+    const task = yield Task_1.Task.create({
+        title,
+        description,
+        status,
+        priority,
+        dueDate,
+    });
     res.status(201).json({
         success: true,
         data: task,
@@ -48,7 +79,21 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.create = create;
+/**
+ * Sample Request Body for update:
+    {
+        "title": "Update Assignment Title",
+        "status": "completed"
+    }
+ */
 const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, description, status, priority, dueDate } = req.body;
+    if (!title && !description && !status && !priority && !dueDate) {
+        return res.status(400).json({
+            success: false,
+            message: "At least one field must be provided for update",
+        });
+    }
     const task = yield Task_1.Task.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     });
@@ -57,6 +102,9 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ success: true, data: task, message: "Updated task" });
 });
 exports.update = update;
+/**
+ * Here you have to mention the id of it thats it
+ */
 const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task = yield Task_1.Task.findByIdAndDelete(req.params.id);
     if (!task)
@@ -64,6 +112,9 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ success: true, data: null, message: "Deleted task" });
 });
 exports.remove = remove;
+/**
+ * No request body or parameters required for stats.
+ */
 const stats = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const total = yield Task_1.Task.countDocuments();
     const completed = yield Task_1.Task.countDocuments({ status: "completed" });
@@ -75,7 +126,10 @@ const stats = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.stats = stats;
+/**
+ * Health check endpoint to verify server is running.
+ */
 const healthCheck = (_req, res) => {
-    res.json({ success: true, message: "Health Check -- OK!" });
+    res.json({ success: true, message: "OK" });
 };
 exports.healthCheck = healthCheck;

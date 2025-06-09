@@ -1,20 +1,20 @@
-version: '3.8' 
-services: 
-app: 
-# Your Node.js application 
-ports: 
-- "3000:3000" 
-environment: 
-- NODE_ENV=development
-- MONGODB_URI=mongodb://mongo:27017/taskdb 
-depends_on: 
-- mongo 
-mongo: 
-# MongoDB container 
-image: mongo:5.0 
-ports: 
-- "27017:27017" 
-volumes: 
-- mongodb_data:/data/db 
-volumes: 
-mongodb_data: 
+# version: '3.8'
+# services:
+# app:
+# # Your Node.js application
+# ports:
+# - "3000:3000"
+# environment:
+# - NODE_ENV=development
+# - MONGODB_URI=mongodb://mongo:27017/taskdb
+# depends_on:
+# - mongo
+# mongo:
+# # MongoDB container
+# image: mongo:5.0
+# ports:
+# - "27017:27017"
+# volumes:
+# - mongodb_data:/data/db
+# volumes:
+# mongodb_data:
