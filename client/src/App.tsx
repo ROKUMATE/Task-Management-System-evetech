@@ -11,7 +11,6 @@ export default function App() {
     return (
         <div className="min-h-screen bg-gray-100 p-4">
             <div className="max-w-3xl mx-auto">
-                <Navbar tasks={tasks} />
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-2xl font-bold">Task Management</h1>
                     <button
@@ -20,6 +19,7 @@ export default function App() {
                         + New Task
                     </button>
                 </div>
+                <Navbar tasks={tasks} />
                 {showForm && (
                     <TaskForm
                         onClose={() => setShowForm(false)}
